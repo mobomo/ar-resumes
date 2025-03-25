@@ -1,1 +1,77 @@
-PERRY BROWN
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="color-scheme" content="light dark">
+    <title>Interactive Resume</title>
+    <link rel="stylesheet" href="css/pb-index.css">
+</head>
+<body>
+    <div class="brand-bar">
+        <div class="logo">
+            <img src="mobobird.svg" alt="Mobomo" class="mobobird"> <span id="fullname"></span>
+        </div>
+    </div>
+    <div id="text-area">
+        <div id="result" class="empty" role="region" aria-live="polite" aria-atomic="true"></div>
+    </div>
+    
+    <button id="microphone" aria-label="Press to speak">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36" fill="currentColor" class="mic-icon">
+            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+        </svg>
+    </button>
+    
+    <div id="theme-toggle-wrapper">
+        <button id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+            <span class="light-icon">☀️</span>
+            <span class="dark-icon">🌙</span>
+        </button>
+    </div>
+    
+    <div id="search-mode" class="search-mode">
+        <span id="search-mode-indicator" class="search-mode-indicator">word</span>
+    </div>
+    
+    <!-- Configure cache directory for transformers.js -->
+    <script>
+        // Configure the transformers.js cache before loading the library
+        window.transformersCache = {
+            localPath: './cache',   // Cache files locally
+            enableLocalCache: true  // Enable local storage cache
+        };
+        // console.log('Transformers cache configured');
+    </script>
+    
+    <!-- Load the transformers library as a module with a specific import -->
+    <script type="module">
+        import { pipeline, env } from './js/transformers.min.js';
+        
+        // Configure the environment
+        env.allowLocalModels = true;
+        env.useBrowserCache = true;
+        env.cacheDir = './cache';
+        
+        // Make transformers available globally
+        window.transformers = { pipeline, env };
+        
+        // Signal that transformers is loaded
+        window.transformersLoaded = true;
+        // console.log('Transformers library loaded successfully');
+    </script>
+    
+    <!-- Now load application scripts -->
+    <script src="js/pb-resume-data.js"></script>
+    <script src="js/embedding-model-service.js"></script>
+    <script src="js/pb-pre-calculated-embedding-service.js"></script>
+    <script src="js/ResumeResponse.js"></script>
+    <script src="js/ThemeManager.js"></script>
+    <script src="js/ViewportManager.js"></script>
+    <script src="js/AppStateManager.js"></script>
+    <script type="module" src="js/pb-index.js"></script>
+</body>
+</html>

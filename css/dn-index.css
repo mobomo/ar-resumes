@@ -1,0 +1,506 @@
+:root {
+    /* Mobomo-inspired dark theme colors with WCAG AA/AAA compliance */
+    --bg-color: #0d1a24;
+    --text-color: #ffffff; /* Enhanced from #f0f0f0 for better contrast */
+    --result-bg: #0f2638;
+    --mobomo-red: #D03A00;
+    --mobomo-red-hover: #D03A00;
+    --mic-bg: #e84c3d; /* Passes contrast on dark background */
+    --mic-hover: #f05545; /* Lightened for better visibility/focus */
+    --mic-recording: #4ca8eb; /* Brightened from #3498db for better contrast */
+    --status-color: #4ca8eb; /* Brightened from #3498db for better contrast */
+    --error-color: #ff9800; /* Good contrast on dark bg */
+    --interim-color: #bdbdbd; /* Brightened from #9e9e9e for better contrast */
+    --toggle-size: 40px;
+    --toggle-margin: 15px;
+}
+
+html, body {
+    font-family: 'Roboto', 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background-color: var(--bg-color);
+    background-image: linear-gradient(to bottom, #0d1a24, #0a1520);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Fix for mobile browsers with dynamic viewport heights */
+:root {
+    --vh: 1vh;
+}
+
+/* Brand bar */
+.brand-bar {
+    position: relative;
+    height: 50px;
+    background-color: rgba(15, 38, 56, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center horizontally */
+    padding: 0 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 22px;
+    color: white;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobobird {
+    height: 22px; /* Match the font size */
+    width: auto;
+    margin-right: 10px;
+    vertical-align: middle;
+    display: inline-block;
+    filter: brightness(1.2) contrast(1.1); /* Make the SVG more visible */
+}
+
+span#fullname {
+    color: var(--mobomo-red);
+}
+
+
+body {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100vh; /* Fallback */
+    height: calc(var(--vh, 1vh) * 100);
+    max-height: -webkit-fill-available; /* iOS Safari fix */
+}
+
+#text-area {
+    position: absolute;
+    top: 50px; /* Adjusted for brand bar */
+    left: 0;
+    right: 0;
+    bottom: 120px; /* Reserve space for button at bottom */
+    padding: 0;
+    overflow-y: auto; /* Allow scrolling in the text area */
+}
+
+#result {
+    width: 100%;
+    height: 100%;
+    font-size: 20px;
+    line-height: 1.6; /* Improved line height for readability */
+    padding: 20px;
+    box-sizing: border-box;
+    font-family: 'Roboto', 'Segoe UI', Arial, sans-serif;
+    background-color: var(--result-bg);
+    background-image: linear-gradient(to bottom, #0f2638, #0d1e2d);
+    color: var(--text-color);
+    white-space: pre-wrap;
+    overflow-y: auto;
+    border: none;
+    border-radius: 0 0 15px 15px;
+    position: relative;
+    z-index: 10;
+    transition: background-color 0.3s, color 0.3s;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+    
+    /* Center the text horizontally and vertically */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    
+    /* Improve text readability */
+    letter-spacing: 0.01em;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+
+/* Formatting for list items in responses */
+#result ul {
+    margin: 10px 0;
+    padding-left: 0; /* Remove default padding */
+    list-style-position: inside; /* Keep bullets inside */
+}
+
+#result li {
+    margin-bottom: 8px; /* Increased space between items for readability */
+    text-align: center;
+    color: var(--text-color); /* Ensure good contrast */
+}
+
+/* Ensure all links have proper contrast */
+#result a {
+    color: #61dafb; /* High contrast accessible link color */
+    text-decoration: underline;
+    transition: color 0.2s;
+}
+
+#result a:hover, 
+#result a:focus {
+    color: #a5e9ff;
+    text-decoration: underline;
+}
+
+/* Formatting for resume responses */
+.response-item {
+    display: block;
+    margin: 5px 0;
+    text-align: center;
+    width: 100%;
+}
+
+.response-section {
+    margin-top: 15px;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+}
+
+#microphone {
+    position: fixed; /* Use fixed instead of absolute for better mobile positioning */
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 80px;
+    background-color: var(--mobomo-red);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999; /* Very high z-index to ensure it's always on top */
+    margin: 0 auto;
+    
+    /* Improve accessibility */
+    padding: 0;
+    outline: none;
+    
+    /* Prevent text selection */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+}
+
+.mic-icon {
+    width: 40px;
+    height: 40px;
+    transition: transform 0.2s ease;
+}
+
+#microphone:hover {
+    background-color: var(--mic-hover);
+    transform: translateX(-50%) scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+#microphone:focus {
+    box-shadow: 0 0 0 3px #ffffff, 0 0 0 6px rgba(76, 168, 235, 0.8);
+}
+
+/* Add aria-label description for the button */
+#microphone::before {
+    content: attr(aria-label);
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+#microphone:hover::before,
+#microphone:focus::before {
+    opacity: 1;
+}
+
+/* Accessibility class for screen reader only content */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* High contrast focus styles for keyboard navigation - WCAG 2.1 compliant */
+*:focus-visible {
+    outline: 3px solid #ffffff !important; /* White outline for maximum contrast */
+    outline-offset: 3px !important;
+    box-shadow: 0 0 0 6px rgba(76, 168, 235, 0.6) !important; /* Double outline effect for better visibility */
+    border-radius: 2px;
+}
+
+/* Accessibility: High contrast mode support */
+@media (prefers-contrast: more) {
+    :root {
+        --bg-color: #000000;
+        --text-color: #ffffff;
+        --result-bg: #000000;
+        --mobomo-red: #D03A00;
+        --mobomo-red-hover: #D03A00;
+        --mic-bg: #D03A00;
+        --mic-hover: #D06A30;
+        --mic-recording: #0088ff;
+        --status-color: #0088ff;
+        --error-color: #ff8800;
+        --interim-color: #ffffff;
+    }
+
+    html, body {
+        background-image: none;
+    }
+    
+    #result {
+        background-image: none;
+        border: 2px solid white;
+    }
+    
+    a {
+        color: #00ffff !important;
+        text-decoration: underline !important;
+    }
+    
+    .error {
+        border: 2px solid #ff0000;
+        background-color: #000000;
+    }
+    
+    .status-message {
+        border: 2px solid #00ffff;
+        background-color: #000000;
+    }
+    
+    *:focus-visible {
+        outline: 4px solid #ffffff !important;
+        outline-offset: 4px !important;
+        box-shadow: none !important;
+    }
+}
+
+/* Mobile-specific adjustments */
+/* Accessibility: Text size preference support */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+/* Respect user's font size preferences */
+@media screen and (max-width: 768px) {
+    #result {
+        font-size: calc(1rem + 0.2vw); /* Responsive font size based on viewport */
+        padding: 15px 10px; /* Less horizontal padding */
+    }
+    
+    #text-area {
+        bottom: 110px; /* Slightly less space for button on small screens */
+    }
+    
+    #microphone {
+        bottom: 15px; /* Closer to bottom edge on mobile */
+        width: 70px; /* Slightly smaller button */
+        height: 70px;
+        font-size: 35px;
+    }
+    
+    #theme-toggle-wrapper {
+        bottom: 10px;
+        right: 10px;
+    }
+    
+    #theme-toggle {
+        width: 35px;
+        height: 35px;
+    }
+}
+
+/* Even smaller screens */
+@media screen and (max-width: 360px) {
+    #result {
+        font-size: 16px;
+        padding: 12px 8px;
+    }
+    
+    #microphone {
+        width: 65px;
+        height: 65px;
+        font-size: 32px;
+    }
+}
+
+#microphone.recording {
+    background-color: var(--mic-recording);
+    animation: pulse 1.5s infinite;
+}
+
+#microphone.recording .mic-icon {
+    animation: mic-wave 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+    50% {
+        opacity: 0.9;
+        box-shadow: 0 4px 20px rgba(52, 152, 219, 0.7);
+    }
+    100% {
+        opacity: 1;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+}
+
+@keyframes mic-wave {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.interim {
+    color: var(--interim-color);
+    font-style: italic;
+    width: 100%;
+    display: block;
+    text-align: center;
+}
+
+.error {
+    color: #ffffff; /* White text for maximum contrast */
+    font-weight: bold;
+    width: 80%;
+    margin: 12px auto;
+    padding: 8px 12px;
+    text-align: center;
+    background-color: rgba(255, 87, 34, 0.25); /* Red background with transparency */
+    border: 1px solid #ff5722; /* Bright red border */
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.status-message {
+    color: #ffffff; /* White text for maximum contrast */
+    font-style: italic;
+    font-weight: 500; /* Slightly bolder for readability */
+    margin: 12px auto;
+    padding: 8px 12px;
+    border: 1px solid var(--status-color);
+    border-radius: 4px;
+    background-color: rgba(76, 168, 235, 0.25); /* Increased opacity for better contrast */
+    width: 80%;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Theme toggle button */
+#theme-toggle-wrapper {
+    display: none; /* Hide the theme toggle */
+}
+
+/* Search Mode Indicator */
+.search-mode {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    z-index: 100;
+    font-size: 11px;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+.search-mode:hover {
+    opacity: 0.8;
+}
+
+.search-mode-indicator {
+    padding: 3px 7px;
+    border-radius: 10px;
+    background-color: rgba(200, 200, 200, 0.2);
+    color: #777;
+    border: 1px solid rgba(200, 200, 200, 0.3);
+    backdrop-filter: blur(4px);
+    text-transform: lowercase;
+    letter-spacing: 0.5px;
+}
+
+.search-mode-indicator.advanced {
+    background-color: rgba(163, 228, 163, 0.2);
+    color: #578557;
+    border-color: rgba(163, 228, 163, 0.4);
+}
+
+@media (prefers-color-scheme: dark) {
+    .search-mode-indicator {
+        background-color: rgba(50, 50, 50, 0.3);
+        color: #999;
+        border-color: rgba(80, 80, 80, 0.3);
+    }
+    
+    .search-mode-indicator.advanced {
+        background-color: rgba(0, 101, 0, 0.2);
+        color: #7cc47c;
+        border-color: rgba(0, 101, 0, 0.3);
+    }
+}
+
+@keyframes thinking-dots {
+    0%, 20% { content: "."; }
+    40% { content: ".."; }
+    60%, 100% { content: "..."; }
+}
+
+#result.empty::before {
+    content: "Push to Talk";
+    color: var(--interim-color);
+    font-style: italic;
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+#result.thinking::after {
+    content: "";
+    display: inline-block;
+    animation: thinking-dots 1.5s infinite ease-in-out;
+    color: #888;
+}
