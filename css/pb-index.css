@@ -490,7 +490,7 @@ body {
 }
 
 #result.empty::before {
-    content: "Push to Talk";
+    content: "Welcome To Perry's resume. Ask me questions. Push to Talk";
     color: var(--interim-color);
     font-style: italic;
     display: block;
